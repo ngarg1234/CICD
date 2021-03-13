@@ -9,4 +9,4 @@
  
 // module.exports = app;
 
-cosnole.log("Testing for Jenkins");
+console.log("Testing for Jenkins");

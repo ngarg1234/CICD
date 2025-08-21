@@ -22,7 +22,7 @@ on:
 
         required: false
 
-        type: number
+        type: string
 
       deployConfiguration:
 

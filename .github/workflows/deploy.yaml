@@ -9,6 +9,9 @@ on:
       deployVersion:
         required: false
         type: string
+      deployYear:
+        required: false
+        type: number
       deployConfiguration:
         required: false
         type: string
@@ -27,5 +30,6 @@ jobs:
         run: |
           echo "Deploying product: ${{ inputs.productName }}"
           echo "Version: ${{ inputs.deployVersion }}"
+          echo "Year: ${{ inputs.deployYear }}"
           echo "Configuration: ${{ inputs.deployConfiguration }}"
           echo "Target: ${{ inputs.deployTarget }}"

@@ -58,8 +58,7 @@ jobs:
  
       - name: Trigger Deploy Workflow
 
-        uses: ./.github/workflows/deploy.yml@main
-
+        uses: ngarg1234/CICD/.github/workflows/deploy.yaml@main
         with:
 
           productName: ${{ inputs.productName }}

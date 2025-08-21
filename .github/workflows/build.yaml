@@ -38,7 +38,7 @@ jobs:
   deploy:
     name: Deploy Workflow
     needs: build
-    uses: ngarg1234/CICD/.github/workflows/deploy.yaml@main
+    uses: ngarg1234/cs-prof-common-utilities/.github/workflows/deploy.yaml@main
     with:
       productName: ${{ inputs.productName }}
       deployVersion: ${{ inputs.deployVersion }}

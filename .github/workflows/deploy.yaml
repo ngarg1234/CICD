@@ -11,7 +11,7 @@ on:
         type: string
       deployYear:
         required: false
-        type: number
+        type: string
       deployConfiguration:
         required: false
         type: string

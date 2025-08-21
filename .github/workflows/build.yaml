@@ -1,72 +1,46 @@
 name: Build Workflow
- 
+
 on:
-
   workflow_call:
-
     inputs:
-
       productName:
-
         required: false
-
         type: string
-
       deployVersion:
-
         required: false
-
         type: string
-
       deployConfiguration:
-
         required: false
-
         type: string
-
       deployTarget:
-
         required: false
-
         type: string
- 
+
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
+    outputs:
+      productName: ${{ inputs.productName }}
+      deployVersion: ${{ inputs.deployVersion }}
+      deployConfiguration: ${{ inputs.deployConfiguration }}
+      deployTarget: ${{ inputs.deployTarget }}
     steps:
-
       - name: Checkout Code
-
         uses: actions/checkout@v3
- 
+
       - name: Simulate Build
-
         run: |
-
           echo "Building product: ${{ inputs.productName }}"
-
           echo "Version: ${{ inputs.deployVersion }}"
-
-          echo "Year: ${{ inputs.deployYear }}"
-
           echo "Configuration: ${{ inputs.deployConfiguration }}"
-
           echo "Target: ${{ inputs.deployTarget }}"
- 
-      - name: Trigger Deploy Workflow
 
-        uses: ngarg1234/CICD/.github/workflows/deploy.yaml@main
-        with:
-
-          productName: ${{ inputs.productName }}
-
-          deployVersion: ${{ inputs.deployVersion }}
-
-          deployConfiguration: ${{ inputs.deployConfiguration }}
-
-          deployTarget: ${{ inputs.deployTarget }}
-
- 
+  deploy:
+    name: Deploy Workflow
+    needs: build
+    uses: ngarg1234/CICD/.github/workflows/deploy.yaml@main
+    with:
+      productName: ${{ inputs.productName }}
+      deployVersion: ${{ inputs.deployVersion }}
+      deployConfiguration: ${{ inputs.deployConfiguration }}
+      deployTarget: ${{ inputs.deployTarget }}

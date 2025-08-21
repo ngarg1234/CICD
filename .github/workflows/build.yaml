@@ -1,0 +1,81 @@
+name: Build Workflow
+ 
+on:
+
+  workflow_call:
+
+    inputs:
+
+      productName:
+
+        required: false
+
+        type: string
+
+      deployVersion:
+
+        required: false
+
+        type: string
+
+      deployYear:
+
+        required: false
+
+        type: number
+
+      deployConfiguration:
+
+        required: false
+
+        type: string
+
+      deployTarget:
+
+        required: false
+
+        type: string
+ 
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Code
+
+        uses: actions/checkout@v3
+ 
+      - name: Simulate Build
+
+        run: |
+
+          echo "Building product: ${{ inputs.productName }}"
+
+          echo "Version: ${{ inputs.deployVersion }}"
+
+          echo "Year: ${{ inputs.deployYear }}"
+
+          echo "Configuration: ${{ inputs.deployConfiguration }}"
+
+          echo "Target: ${{ inputs.deployTarget }}"
+ 
+      - name: Trigger Deploy Workflow
+
+        uses: ./.github/workflows/deploy.yml@main
+
+        with:
+
+          productName: ${{ inputs.productName }}
+
+          deployVersion: ${{ inputs.deployVersion }}
+
+          deployYear: ${{ inputs.deployYear }}
+
+          deployConfiguration: ${{ inputs.deployConfiguration }}
+
+          deployTarget: ${{ inputs.deployTarget }}
+
+ 

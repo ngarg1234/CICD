@@ -1,0 +1,35 @@
+name: Deploy Workflow
+ 
+on:
+  workflow_call:
+    inputs:
+      productName:
+        required: false
+        type: string
+      deployVersion:
+        required: false
+        type: string
+      deployYear:
+        required: false
+        type: number
+      deployConfiguration:
+        required: false
+        type: string
+      deployTarget:
+        required: false
+        type: string
+ 
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+ 
+      - name: Simulate Deployment
+        run: |
+          echo "Deploying product: ${{ inputs.productName }}"
+          echo "Version: ${{ inputs.deployVersion }}"
+          echo "Year: ${{ inputs.deployYear }}"
+          echo "Configuration: ${{ inputs.deployConfiguration }}"
+          echo "Target: ${{ inputs.deployTarget }}"

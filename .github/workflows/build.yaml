@@ -2,7 +2,12 @@ name: Build Workflow
 
 on:
   workflow_call:
+    # Inside build.yaml
     inputs:
+      deployAfterBuild:
+        required: false
+        type: boolean
+        default: true  # preserve existing behavior
       productName:
         required: false
         type: string
@@ -36,7 +41,8 @@ jobs:
           echo "Target: ${{ inputs.deployTarget }}"
 
   deploy:
-    name: Deploy Workflow
+    if: inputs.deployAfterBuild == true
+    name: Deploy Workflow   
     needs: build
     uses: ngarg1234/cs-prof-common-utilities/.github/workflows/deploy.yaml@main
     with:

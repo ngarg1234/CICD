@@ -1,50 +1,59 @@
 name: Build Workflow
 
 on:
-  workflow_call:
-    # Inside build.yaml
+  push:
+  pull_request:
+  workflow_dispatch:
     inputs:
-      deployAfterBuild:
+      productName:
+        description: Product name
+        required: true
+        type: string
+      buildType:
+        description: Build type (e.g., full, incremental)
+        required: false
+        type: string
+        default: full
+      skipTests:
+        description: Skip tests?
         required: false
         type: boolean
-        default: true  # preserve existing behavior
-      productName:
+        default: false
+      deployAfterBuild:
+        description: Deploy after build? (manual trigger only)
         required: false
-        type: string
+        type: boolean
+        default: false
       deployVersion:
+        description: Version to deploy (used only if deployAfterBuild is true)
         required: false
         type: string
+        default: latest
       deployConfiguration:
+        description: Configuration (release/debug)
         required: false
         type: string
+        default: release
       deployTarget:
+        description: Deploy targets (comma separated)
         required: false
         type: string
+        default: optional
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs:
-      productName: ${{ inputs.productName }}
-      deployVersion: ${{ inputs.deployVersion }}
-      deployConfiguration: ${{ inputs.deployConfiguration }}
-      deployTarget: ${{ inputs.deployTarget }}
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
       - name: Simulate Build
         run: |
-          echo "Building product: ${{ inputs.productName }}"
-          echo "Version: ${{ inputs.deployVersion }}"
-          echo "Configuration: ${{ inputs.deployConfiguration }}"
-          echo "Target: ${{ inputs.deployTarget }}"
+          echo "Product: ${{ inputs.productName }}"
+          echo "Build type: ${{ inputs.buildType }}"
+          echo "Skip tests: ${{ inputs.skipTests }}"
 
-  deploy:
-    if: inputs.deployAfterBuild == true
-    name: Deploy Workflow   
+  maybe-deploy:
+    if: github.event_name != 'workflow_dispatch' || inputs.deployAfterBuild == true
     needs: build
-    uses: ngarg1234/cs-prof-common-utilities/.github/workflows/deploy.yaml@main
+    uses: ngarg1234/cs-prof-common-utilities/.github/workflows/deploy.yaml@master
     with:
       productName: ${{ inputs.productName }}
       deployVersion: ${{ inputs.deployVersion }}

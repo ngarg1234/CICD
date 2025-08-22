@@ -1,45 +1,44 @@
 name: Build Workflow
 
 on:
-  workflow_call:
   push:
   pull_request:
   workflow_dispatch:
+  workflow_call:
     inputs:
       productName:
-        description: Product name
+        type: string
         required: true
-        type: string
+      
       buildType:
-        description: Build type (e.g., full, incremental)
-        required: false
         type: string
+        required: false
         default: full
+      
       skipTests:
-        description: Skip tests?
-        required: false
         type: boolean
+        required: false
         default: false
+      
       deployAfterBuild:
-        description: Deploy after build? (manual trigger only)
-        required: false
         type: boolean
+        required: false
         default: false
+
       deployVersion:
-        description: Version to deploy (used only if deployAfterBuild is true)
-        required: false
         type: string
-        default: latest
+        required: false
+
       deployConfiguration:
-        description: Configuration (release/debug)
-        required: false
         type: string
+        required: false
         default: release
+
       deployTarget:
-        description: Deploy targets (comma separated)
-        required: false
         type: string
+        required: false
         default: optional
+
 
 jobs:
   build:

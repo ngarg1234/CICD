@@ -18,6 +18,7 @@ on:
 
 jobs:
   build:
+    name: Build App
     runs-on: ubuntu-latest
     steps:
       - name: Simulate Build
@@ -27,6 +28,7 @@ jobs:
           
   deploy:
     needs: build
+    name: Deploy App
     uses: ngarg1234/cs-prof-common-utilities/.github/workflows/deploy.yaml@master
     with:
       deployVersion: ${{ inputs.deployVersion }}

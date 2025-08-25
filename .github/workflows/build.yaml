@@ -4,8 +4,8 @@ on:
   push:
   pull_request:
   workflow_dispatch:
-  workflow_call:    
-    inputs:      
+  workflow_call:
+    inputs:
       buildType:
         type: string
         required: false
@@ -18,7 +18,14 @@ on:
         type: boolean
         required: false
         default: false
-      
+      deployVersion:
+        type: string
+        required: false
+        default: latest
+      deployTarget:
+        type: string
+        required: false
+        default: DevTest
 
 jobs:
   build:
@@ -29,11 +36,11 @@ jobs:
         run: |
           echo "Build type: ${{ inputs.buildType }}"
           echo "CONFIGURATION type: ${{ inputs.CONFIGURATION }}"
-          
+
   deploy:
     needs: build
     name: Deploy App
-    if: ${{ github.event_name != 'workflow_dispatch' }} || ${{ inputs.VALIDATE_ONLY == false }}
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.VALIDATE_ONLY == false }}
     uses: ngarg1234/cs-prof-common-utilities/.github/workflows/deploy.yaml@master
     with:
       deployVersion: ${{ inputs.deployVersion }}

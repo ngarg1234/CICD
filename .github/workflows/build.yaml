@@ -11,7 +11,7 @@ on:
         required: false
         default: full
       CONFIGURATION:
-        type: boolean
+        type: string
         required: false
         default: release
       VALIDATE_ONLY:

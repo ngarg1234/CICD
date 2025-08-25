@@ -4,7 +4,7 @@ on:
   push:
   pull_request:
   workflow_dispatch:
-  workflow_call:
+  workflow_call:    
     inputs:      
       buildType:
         type: string
@@ -14,6 +14,10 @@ on:
         type: string
         required: false
         default: release
+      VALIDATE_ONLY:
+      type: boolean
+      required: false
+      default: false
       
 
 jobs:
@@ -29,6 +33,7 @@ jobs:
   deploy:
     needs: build
     name: Deploy App
+    if: ${{ inputs.VALIDATE_ONLY == false }}
     uses: ngarg1234/cs-prof-common-utilities/.github/workflows/deploy.yaml@master
     with:
       deployVersion: ${{ inputs.deployVersion }}

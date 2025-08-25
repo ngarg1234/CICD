@@ -15,9 +15,9 @@ on:
         required: false
         default: release
       VALIDATE_ONLY:
-      type: boolean
-      required: false
-      default: false
+        type: boolean
+        required: false
+        default: false
       
 
 jobs:
